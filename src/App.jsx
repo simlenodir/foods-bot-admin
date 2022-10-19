@@ -10,24 +10,27 @@ import {
   CardText,
   Button,
 } from "reactstrap";
+import { SideBar } from "./sidebar.jsx";
+import {useFood} from "./hooks/usefood.js"
 
 function App() {
   const [foods, setFoods] = useState([]);
+  const [counter, setCounter ] = useFood()
+  
 
   useEffect(() => {
     fetch("http://localhost:8080/foods")
       .then((res) => res.json())
       .then((data) => setFoods(data))
       .catch((err) => console.log(err));
-  }, [foods]);
-  console.log(foods);
-
+  }, []);
+  
   return (
     <div className="App container">
       <h2 className="text-center my-4">Admin page of Foods </h2>
       <div className="side__main d-flex">
-        <div className="sider">
-          <h3 className="my-3 mx-4 height-100">Side bar</h3>
+        <div className="sider mt-2 w-25">
+          <SideBar />
         </div>
         <div className="components col ">
           <ul className="d-flex flex-wrap justify-content-around my-3">
@@ -46,10 +49,8 @@ function App() {
                       <CardSubtitle className="mb-2 " tag="h5">
                         {e.name}
                       </CardSubtitle>
-                      <CardText>
-                        {e.description}
-                        <p>price: {e.price}</p>
-                      </CardText>
+                      <CardText>{e.description}</CardText>
+                      <CardText>price: {e.price}</CardText>
                       <Button>Edit</Button>
                     </CardBody>
                   </Card>
